@@ -1,4 +1,3 @@
-alembic==0.9.3.dev0
 argcomplete==1.10.0
 asn1crypto==0.24.0
 attrs==17.4.0
