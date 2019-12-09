@@ -1,6 +1,6 @@
-from flask import Flask, Response, request, logging
+from flask import Flask, Response, request
 from ParseResume import parseResume
-import config.config
+from config import config
 
 from services.FileService import convert_to_text
 
