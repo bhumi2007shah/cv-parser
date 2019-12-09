@@ -11,7 +11,7 @@ jobs:
         run: cd ~/cvParserApplication/;
         shell: bash
       - name: take pull from master branch
-        run: git checkouot master; git pull;
+        run: git checkout master; git pull;
         shell: bash
       - name: stop cv parser service
         run: sudo service cvParser stop
