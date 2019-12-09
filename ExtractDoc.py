@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import docx2txt
+import textract
 
 
 def extract_text_from_doc(file):
-    temp = docx2txt.process(file)
+    temp = textract.process(file).decode("UTF-8")
     text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
     return ' '.join(text)
