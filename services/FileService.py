@@ -16,8 +16,9 @@ def convert_to_text(file_url):
             fileName = file_url.split("/")[-1]
             with open(fileName, "wb") as f:
                 f.write(response.content)
+                f.close()
             text_to_return = extract_text_from_doc(fileName)
-            Path(fileName).rename(config.FILE_PATH+fileName)
+            Path(fileName).rename(config.PROCESSED_FILE_PATH+fileName)
         else:
             text_to_return = extract_text_from_doc(config.FILE_PATH + file_url)
     elif "pdf" in file_url:
@@ -25,9 +26,12 @@ def convert_to_text(file_url):
             response = requests.get(file_url)
             pdf_content = io.BytesIO(response.content)
             text_to_return = extract_from_pdf(pdf_content)
-            with open(config.FILE_PATH+file_url.split("/")[-1], "wb") as f:
+            with open(config.PROCESSED_FILE_PATH+file_url.split("/")[-1], "wb") as f:
                 f.write(response.content)
+                f.close()
         else:
-            text_to_return = extract_from_pdf(config.FILE_PATH + file_url)
+            pdfFileObj = open(config.FILE_PATH+file_url, 'rb')
+            text_to_return = extract_from_pdf(pdfFileObj)
+            pdfFileObj.close()
 
     return text_to_return

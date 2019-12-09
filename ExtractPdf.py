@@ -10,7 +10,6 @@ from pdfminer.pdfpage import PDFPage
 
 def extract_from_pdf(file):
     text = ""
-    #pdfFileObj = open(pdf_path, 'rb')
     pdfReader = PyPDF2.PdfFileReader(file)
     pagesCount = pdfReader.numPages
     for i in range(0, pagesCount):

@@ -1,0 +1,24 @@
+name: continuous integration and deployment job
+
+on: [push]
+
+jobs:
+  install_requirements:
+    name: install cv parser requirements
+    runs-on: self-hosted
+    steps:
+      - name: switch to cvParser app directory
+        run: cd ~/cvParserApplication/;
+        shell: bash
+      - name: take pull from master branch
+        run: git checkouot master; git pull;
+        shell: bash
+      - name: stop cv parser service
+        run: sudo service cvParser stop
+        shell: bash
+      - name: installing requirements
+        run: pip3 install -r requirements.txt;
+        shell: bash
+      - name: restarting service
+        run: sudo service cvParser start
+        shell: bash
