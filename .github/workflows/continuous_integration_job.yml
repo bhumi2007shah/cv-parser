@@ -10,8 +10,11 @@ jobs:
       - name: switch to cvParser app directory
         run: cd ~/cvParserApplication/;
         shell: bash
-      - name: take pull from master branch
-        run: git checkout master; git pull;
+      - name: checkout to master
+        run: git checkout master
+        shell: bash
+      - name: take pull
+        run: git pull
         shell: bash
       - name: stop cv parser service
         run: sudo service cvParser stop
