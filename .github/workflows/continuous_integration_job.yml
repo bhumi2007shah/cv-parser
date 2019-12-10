@@ -20,7 +20,7 @@ jobs:
         run: sudo service cvParser stop
         shell: bash
       - name: installing requirements
-        run: cd ~/cvParserApplication/;pip3 install -r requirements.txt
+        run: cd ~/cvParserApplication/;sudo pip3 install -r requirements.txt
         shell: bash
       - name: restarting service
         run: sudo service cvParser start
