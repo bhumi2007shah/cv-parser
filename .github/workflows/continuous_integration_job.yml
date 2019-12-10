@@ -7,9 +7,6 @@ jobs:
     name: install cv parser requirements
     runs-on: self-hosted
     steps:
-      - name: switch to cvParser app directory
-        run: cd ~/cvParserApplication/
-        shell: bash
       - name: checkout to master
         run: cd ~/cvParserApplication/;sudo git checkout master
         shell: bash
