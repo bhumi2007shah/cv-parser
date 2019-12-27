@@ -26,14 +26,16 @@ def convert_to_text(file_url):
         if "http" in file_url or "https" in file_url:
             response = requests.get(file_url)
             if response:
-                pdf_content = io.BytesIO(response.content)
-                text_to_return = extract_from_pdf(pdf_content, None)
-                with open(config.PROCESSED_FILE_PATH+file_url.split("/")[-1], "wb") as f:
+                fileName = file_url.split("/")[-1]
+                with open(fileName, "wb") as f:
                     f.write(response.content)
                     f.close()
+                pdfFileObject = open(fileName, 'rb')
+                text_to_return = str(extract_from_pdf(pdfFileObject, None), "utf-8", 'ignore')
+                Path(fileName).rename(config.PROCESSED_FILE_PATH+fileName)
         else:
             pdfFileObj = open(config.FILE_PATH+file_url, 'rb')
-            text_to_return = extract_from_pdf(pdfFileObj, (config.FILE_PATH+file_url))
+            text_to_return = str(extract_from_pdf(pdfFileObj, (config.FILE_PATH+file_url)), "utf-8", 'ignore')
             pdfFileObj.close()
 
     return text_to_return
