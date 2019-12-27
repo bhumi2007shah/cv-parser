@@ -23,9 +23,9 @@ def extract_skills(resume_text):
     skillset = []
 
     # check for one-grams (example: python)
-    for token in tokens:
-        if token.lower() in skills:
-            skillset.append(token)
+    for skill in skills:
+        if ' '+skill.lower()+' ' in resume_text:
+            skillset.append(skill)
 
     # check for bi-grams and tri-grams (example: machine learning)
     for token in nlp_text.noun_chunks:
