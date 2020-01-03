@@ -31,7 +31,7 @@ def convert_to_text(file_url):
                     f.write(response.content)
                     f.close()
                 pdfFileObject = open(fileName, 'rb')
-                text_to_return = str(extract_from_pdf(pdfFileObject, None), "utf-8", 'ignore')
+                text_to_return = extract_from_pdf(pdfFileObject, None)
                 Path(fileName).rename(config.PROCESSED_FILE_PATH+fileName)
         else:
             pdfFileObj = open(config.FILE_PATH+file_url, 'rb')

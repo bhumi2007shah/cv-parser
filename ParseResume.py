@@ -15,7 +15,7 @@ def extractData(parsed_text):
             parsed_text) else extract_mobile_number(parsed_text)
         candidate.altMobile = extract_mobile_number(parsed_text).split(",")[1] if "," in extract_mobile_number(
             parsed_text) else ""
-    if len(extract_email(parsed_text)):
+    if extract_email(parsed_text) is not None and len(extract_email(parsed_text))>0:
         candidate.email = extract_email(parsed_text)
     candidate.skills = extract_skills(parsed_text)
     candidate.education = extract_education(parsed_text)

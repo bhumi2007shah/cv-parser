@@ -10,7 +10,7 @@ STOPWORDS = set(stopwords.words('english'))
 
 # Education Degrees
 EDUCATION = [
-    'BE', 'B.E.', 'B.E', 'BS', 'B.S',
+    'BE', 'B.E.', 'B.E', 'BS', 'B.S', 'Bachelor of Engineering',
     'ME', 'M.E', 'M.E.', 'MS', 'M.S',
     'BTECH', 'B.TECH', 'M.TECH', 'MTECH',
     'SSC', 'HSC', 'X', 'XII', '10TH', '12TH'
@@ -36,9 +36,17 @@ def extract_education(resume_text):
     # Extract year
     education = []
     for key in edu.keys():
-        year = re.search(re.compile(r'(((20|19)(\d{2})))'), edu[key])
+        year = re.findall(re.compile(r'(?:(?:20|19)(?:\d{2}))+'), edu[key])
+        educationObject = {}
         if year:
-            education.append((key, ''.join(year[0])))
+            educationObject["degree"] = key
+            if len(year) > 1:
+                educationObject["startYear"] = ''.join(year[0])
+                educationObject["endYear"] = ''.join(year[1])
+            else:
+                educationObject["endYear"]=''.join(year[0])
         else:
-            education.append(key)
+            educationObject["degree"] = key
+
+        education.append(educationObject)
     return education
