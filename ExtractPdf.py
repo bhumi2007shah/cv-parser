@@ -4,19 +4,18 @@ import textract
 
 def extract_from_pdf(file, file_path):
     text = ""
-    pdfReader = PyPDF2.PdfFileReader(file)
-    pagesCount = pdfReader.numPages
-    for i in range(0, pagesCount):
-        pageObj = pdfReader.getPage(i)
-        text += pageObj.extractText()
+    if file_path is not None:
+        text = textract.process(file_path, method='tesseract', language='eng')
+
     if text != "":
         return text
     else:
-        if file_path is not None:
-            text = textract.process(file_path, method='tesseract', language='eng')
-            return text
-        else:
-            return ""
+        pdfReader = PyPDF2.PdfFileReader(file)
+        pagesCount = pdfReader.numPages
+        for i in range(0, pagesCount):
+            pageObj = pdfReader.getPage(i)
+            text += pageObj.extractText()
+    return text
 
 
 # calling above function and extracting text
