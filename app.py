@@ -18,7 +18,7 @@ def create_app():
     @app.route("/textconvert", methods=['GET'])
     def textconvert():
         fileName = request.args.get("file")
-        return Response(convert_to_text(fileName), mimetype="text/plain", )
+        return Response(convert_to_text(fileName), mimetype="text/plain", ) 
 
     return app
 
