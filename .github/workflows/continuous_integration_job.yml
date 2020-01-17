@@ -1,8 +1,7 @@
 name: continuous integration and deployment job
 
 on: [push]
-branches:
-  - 'master'
+
 
 jobs:
   install_requirements:
