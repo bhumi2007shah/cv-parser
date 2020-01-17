@@ -30,7 +30,10 @@ def extract_education(resume_text):
             # Replace all special symbols
             tex = re.sub(r'[?|$|.|!|,]', r'', tex)
             if tex.upper() in EDUCATION and tex not in STOPWORDS:
-                edu[tex] = text + nlp_text[index + 1]
+                try:
+                    edu[tex] = text + nlp_text[index + 1]
+                except Exception as e:
+                    print(str(e))
 
     # Extract Branch
     # Extract year

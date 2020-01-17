@@ -37,7 +37,7 @@ def convert_to_text(file_url):
 
                 if os.path.isfile(fileName):
                     pdfFileObject = open(fileName, 'rb')
-                    text_to_return = extract_from_pdf(pdfFileObject, fileName)
+                    text_to_return = str(extract_from_pdf(pdfFileObject, fileName), "UTF-8", "ignore")
                     Path(fileName).rename(config.PROCESSED_FILE_PATH+fileName)
                 else:
                     raise ValueError("%s file does not exist" % fileName)
