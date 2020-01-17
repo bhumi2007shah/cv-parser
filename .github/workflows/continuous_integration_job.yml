@@ -1,13 +1,12 @@
 name: continuous integration and deployment job
 
 on: [push]
-branches:
-  - 'master'
 
 jobs:
   install_requirements:
     name: install cv parser requirements
     runs-on: self-hosted
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: checkout to master
         run: cd ~/cvParserApplication/;sudo git checkout master
