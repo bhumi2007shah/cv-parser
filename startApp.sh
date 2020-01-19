@@ -1,5 +1,5 @@
 #!/bin/bash
-if [-z "$1"]
+if [ -z "$1" ]
 then
 	cp config/config_dev.py config/confgi.py
 else
