@@ -15,6 +15,6 @@ elif [ $1 = "prod" ]; then
   ENV=prod
 fi
 
-$PATH/config/config_$1.py $PATH/config/config.py
+$PATH/config/config_$ENV.py $PATH/config/config.py
 
 python3.6 app.py
