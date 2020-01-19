@@ -17,6 +17,6 @@ else
   fi
 fi
 
-$PATH/config/config_$ENV.py $PATH/config/config.py
+cp $PATH/config/config_$ENV.py $PATH/config/config.py
 
 python3.6 app.py
