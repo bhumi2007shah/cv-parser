@@ -1,8 +1,20 @@
 #!/bin/bash
 if [ -z "$1" ]
 then
-	cp config/config_dev.py config/confgi.py
+  PATH=/home/sameer/litmusblox_cvParser
+  ENV=dev
 else
-	cp config/config_$1.py config/config.py
+if [ $1 = "dev" ]; then
+  PATH=/home/sameer/litmusblox_cvParser
+  ENV=dev
+elif [ $1 = "test" ]; then
+  PATH=/home/lbtest/cvParserApplication
+  ENV=test
+elif [ $1 = "prod" ]; then
+  PATH=/home/lbprod/cvParserApplication
+  ENV=prod
 fi
+
+$PATH/config/config_$1.py $PATH/config/config.py
+
 python3.6 app.py
