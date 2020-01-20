@@ -1,6 +1,9 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
+
+from Exception import WebException
 from ParseResume import parseResume
 from config import config
+import logging
 
 from services.FileService import convert_to_text
 
@@ -10,6 +13,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('config')
 
+    logging.basicConfig(filename="logs/cvparser.log", filemode="a+", level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
+
     @app.route("/parsecv", methods=['GET'])
     def parsecv():
         fileName = request.args.get("file")
@@ -18,7 +23,7 @@ def create_app():
     @app.route("/textconvert", methods=['GET'])
     def textconvert():
         fileName = request.args.get("file")
-        return Response(convert_to_text(fileName), mimetype="text/plain", ) 
+        return Response(convert_to_text(fileName), mimetype="text/plain")
 
     return app
 
