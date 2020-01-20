@@ -29,10 +29,10 @@ jobs:
     if: github.ref == 'refs/heads/development'
     steps:
       - name: checkout to development
-        run: cd ~/cvParserApplication/;sudo git checkout development
+        run: cd ~/cvParserApplication/; git checkout development
         shell: bash
       - name: take pull
-        run: cd ~/cvParserApplication/;sudo git pull origin development;
+        run: cd ~/cvParserApplication/; git pull origin development;
         shell: bash
       - name: stop cv parser service
         run: sudo service cvParser stop
