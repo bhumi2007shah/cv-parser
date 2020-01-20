@@ -8,11 +8,8 @@ jobs:
     runs-on: self-hosted
     if: github.ref == 'refs/heads/master'
     steps:
-      - name: checkout to master
-        run: cd ~/cvParserApplication/;sudo git checkout master
-        shell: bash
-      - name: take pull
-        run: cd ~/cvParserApplication/;git pull;
+      - name: checkout to master and pull
+        run: cd ~/cvParserApplication/;sudo git checkout master; git pull;
         shell: bash
       - name: stop cv parser service
         run: sudo service cvParser stop
@@ -28,11 +25,8 @@ jobs:
     runs-on: self-hosted
     if: github.ref == 'refs/heads/development'
     steps:
-      - name: checkout to development
-        run: cd ~/cvParserApplication/; git checkout development
-        shell: bash
-      - name: take pull
-        run: cd ~/cvParserApplication/; git pull origin development;
+      - name: checkout to development and pull
+        run: cd ~/cvParserApplication/; git checkout development; git pull origin development;
         shell: bash
       - name: stop cv parser service
         run: sudo service cvParser stop
