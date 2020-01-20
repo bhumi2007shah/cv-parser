@@ -23,3 +23,23 @@ jobs:
       - name: restarting service
         run: sudo service cvParser start
         shell: bash
+  install_requirements_test_server:
+    name: install cv parser requirements
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/development'
+    steps:
+      - name: checkout to development
+        run: cd ~/cvParserApplication/;sudo git checkout development
+        shell: bash
+      - name: take pull
+        run: cd ~/cvParserApplication/;git pull;
+        shell: bash
+      - name: stop cv parser service
+        run: sudo service cvParser stop
+        shell: bash
+      - name: installing requirements
+        run: cd ~/cvParserApplication/;sudo pip3 install -r requirements.txt
+        shell: bash
+      - name: restarting service
+        run: sudo service cvParser start
+        shell: bash
