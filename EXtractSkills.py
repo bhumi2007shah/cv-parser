@@ -4,6 +4,8 @@ import spacy
 # load pre-trained model
 from spacy.lang.de.syntax_iterators import noun_chunks
 
+from Models.CandidateSkillDetails import CandidateSkillDetails
+
 nlp = spacy.load('en_core_web_sm')
 # noun_chunks = nlp.noun_chunks
 
@@ -31,6 +33,8 @@ def extract_skills(resume_text):
     for token in nlp_text.noun_chunks:
         token = token.text.lower().strip()
         if token in skills:
-            skillset.append(token)
+            candidateSkillDetails = CandidateSkillDetails()
+            candidateSkillDetails.skill = token
+            skillset.append(candidateSkillDetails)
 
     return [i.capitalize() for i in set([i.lower() for i in skillset])]

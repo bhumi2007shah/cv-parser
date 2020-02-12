@@ -44,10 +44,9 @@ def extract_education(resume_text):
         if year:
             educationObject["degree"] = key
             if len(year) > 1:
-                educationObject["startYear"] = ''.join(year[0])
-                educationObject["endYear"] = ''.join(year[1])
+                educationObject["yearOfPassing"] = ''.join(year[1])
             else:
-                educationObject["endYear"]=''.join(year[0])
+                educationObject["yearOfPassing"]=''.join(year[0])
         else:
             educationObject["degree"] = key
 

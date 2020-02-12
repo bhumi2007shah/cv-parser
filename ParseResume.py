@@ -1,7 +1,7 @@
 import logging
 import time
 
-from Candidate import Candidate
+from Models.Candidate import Candidate
 from EXtractSkills import extract_skills
 from ExtractEducation import extract_education
 from ExtractEmail import extract_email
@@ -17,7 +17,7 @@ def extractData(parsed_text):
     #extracting candidate name
     startTime = time.time()
     logger.info("extracting candidate name")
-    candidate.name = extract_name(parsed_text)
+    candidate.candidateName = extract_name(parsed_text)
     logger.info("completed extracting candidate name in : "+str((time.time()-startTime)*1000)+"ms")
 
     #extracting candidate mobile numbers
@@ -26,7 +26,7 @@ def extractData(parsed_text):
     if len(extract_mobile_number(parsed_text)) > 0:
         candidate.mobile = extract_mobile_number(parsed_text).split(",")[0] if "," in extract_mobile_number(
             parsed_text) else extract_mobile_number(parsed_text)
-        candidate.altMobile = extract_mobile_number(parsed_text).split(",")[1] if "," in extract_mobile_number(
+        candidate.alternateMobile = extract_mobile_number(parsed_text).split(",")[1] if "," in extract_mobile_number(
             parsed_text) else ""
     logger.info("completed extracting mobile numbers in : "+str((time.time()-startTime)*1000)+"ms")
 
@@ -40,13 +40,13 @@ def extractData(parsed_text):
     #extracting candidate's skills
     startTime = time.time()
     logger.info("extracting candidate skills")
-    candidate.skills = extract_skills(parsed_text)
+    candidate.candidateSkillDetails = extract_skills(parsed_text)
     logger.info("completed extrating candidate's skills in : "+str((time.time()-startTime)*1000)+"ms")
 
     #extracting candidate's education
     startTime = time.time()
     logger.info("extracting candidate education")
-    candidate.education = extract_education(parsed_text)
+    candidate.candidateEducationDetails = extract_education(parsed_text)
     logger.info("completed extracting candidate's education in : "+str((time.time()-startTime)*1000)+"ms")
 
     #return Candidate object
