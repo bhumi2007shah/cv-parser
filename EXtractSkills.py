@@ -2,8 +2,13 @@ import pandas as pd
 import spacy
 
 # load pre-trained model
+from spacy.lang.de.syntax_iterators import noun_chunks
+
+from Models.CandidateSkillDetails import CandidateSkillDetails
 
 nlp = spacy.load('en_core_web_sm')
+
+
 # noun_chunks = nlp.noun_chunks
 
 
@@ -22,16 +27,18 @@ def extract_skills(resume_text):
     skillset = []
 
     # check for one-grams (example: python)
-    for skill in skills:
-        if ' '+skill.lower()+' ' in resume_text:
-            skillset.append(skill)
+    for skillText in skills:
+        if ' ' + skillText.lower() + ' ' in resume_text:
+            candidateSkillDetails = CandidateSkillDetails()
+            candidateSkillDetails.skill = skillText.lower().capitalize()
+            skillset.append(candidateSkillDetails)
 
     # check for bi-grams and tri-grams (example: machine learning)
     for token in nlp_text.noun_chunks:
         token = token.text.lower().strip()
         if token in skills:
-            candidateSkillDetails = {}
-            candidateSkillDetails["skill"] = token
+            candidateSkillDetails = CandidateSkillDetails()
+            candidateSkillDetails.skill = token.lower().capitalize()
             skillset.append(candidateSkillDetails)
 
-    return [i.capitalize() for i in set([i.lower() for i in skillset])]
+    return skillset

@@ -3,6 +3,8 @@ import spacy
 from nltk.corpus import stopwords
 
 # load pre-trained model
+from Models.CandidateEducationDetails import CandidateEducationDetails
+
 nlp = spacy.load('en_core_web_sm')
 
 # Grad all general stop words
@@ -40,15 +42,15 @@ def extract_education(resume_text):
     education = []
     for key in edu.keys():
         year = re.findall(re.compile(r'(?:(?:20|19)(?:\d{2}))+'), edu[key])
-        educationObject = {}
+        educationObject = CandidateEducationDetails()
         if year:
-            educationObject["degree"] = key
+            educationObject.degree = key
             if len(year) > 1:
-                educationObject["yearOfPassing"] = ''.join(year[1])
+                educationObject.yearOfPassing = ''.join(year[1])
             else:
-                educationObject["yearOfPassing"]=''.join(year[0])
+                educationObject.yearOfPassing = ''.join(year[0])
         else:
-            educationObject["degree"] = key
+            educationObject.degree = key
 
-        education.append(educationObject)
+        education.append(educationObject.toJSON())
     return education
