@@ -18,6 +18,8 @@ def extractData(parsed_text):
     startTime = time.time()
     logger.info("extracting candidate name")
     candidate.candidateName = extract_name(parsed_text)
+    candidate.firstName = candidate.candidateName.split( )[0]
+    candidate.lastName=candidate.candidateName.split( )[len(candidate.candidateName.split( ))-1]
     logger.info("completed extracting candidate name in : "+str((time.time()-startTime)*1000)+"ms")
 
     #extracting candidate mobile numbers
