@@ -52,5 +52,5 @@ def extract_education(resume_text):
         else:
             educationObject.degree = key
 
-        education.append(educationObject.toJSON())
+        education.append(educationObject)
     return education
