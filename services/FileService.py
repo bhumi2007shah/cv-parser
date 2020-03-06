@@ -8,10 +8,10 @@ import logging
 
 from flask import jsonify
 
+from CustomException.CustomException import CustomWebException
 from ExtractDoc import extract_text_from_doc
 from ExtractPdf import extract_from_pdf
 from config import config
-from Exception import WebException
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ def convert_to_text(file_url):
                 response = requests.get(file_url, stream=True)
             except Exception as e:
                 logging.exception(e)
-                raise Exception("Failed to fetch file", e.code)
+                raise CustomWebException("Failed to fetch file", e.code)
             if response:
                 logging.info("completed downloading file in : ", str((time.time()-startTime)*1000)+"ms")
                 fileName = file_url.split("/")[-1]
@@ -49,7 +49,7 @@ def convert_to_text(file_url):
                 response = requests.get(file_url)
             except Exception as e:
                 logging.exception(e)
-                raise Exception("Failed to fetch file", e.code)
+                raise CustomWebException("Failed to fetch file", e.code)
             if response:
                 logging.info("completed downloading file in : ", str((time.time() - startTime) * 1000) + "ms")
                 fileName = file_url.split("/")[-1]
@@ -68,10 +68,13 @@ def convert_to_text(file_url):
                     Path(fileName).rename(config.PROCESSED_FILE_PATH+fileName)
                     logger.info("save file, filepath:"+(config.PROCESSED_FILE_PATH+fileName))
                 else:
-                    raise ValueError("%s file does not exist" % fileName)
+                    raise CustomWebException("%s file does not exist" % fileName, 404)
         else:
             pdfFileObj = open(config.FILE_PATH+file_url, 'rb')
             text_to_return = str(extract_from_pdf(pdfFileObj, (config.FILE_PATH+file_url)), "utf-8", 'ignore')
             pdfFileObj.close()
+    else:
+        logging.exception("File format not supported" + file_url)
+        raise CustomWebException("File format not supported", 400)
 
     return text_to_return
