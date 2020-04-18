@@ -6,6 +6,7 @@ from CustomException.CustomException import CustomWebException
 from ParseResume import parseResume
 from config import config
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -19,8 +20,19 @@ def create_app():
             integrations=[FlaskIntegration()]
         )
 
+    # formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+    #
+    # handler = TimedRotatingFileHandler('logs/cvparser.log',
+    #                                    when='midnight',
+    #                                    backupCount=1)
+    #
+    # handler.setFormatter(formatter)
+    # logger = logging.getLogger(__name__)
+    # logger.addHandler(handler)
+    
+
     logging.basicConfig(filename="logs/cvparser.log", filemode="a+", level=logging.INFO,
-                        format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
+                       format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
 
     app = Flask(__name__)
     app.config.from_object('config')
@@ -31,18 +43,25 @@ def create_app():
     def web_exception(error):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
+        logging.info(response)
         return response
 
     @app.route("/parsecv", methods=['GET'])
     def parsecv():
         fileName = request.args.get("file")
-        return Response(parseResume(fileName), mimetype="application/json")
-
+        response =  Response(parseResume(fileName), mimetype="application/json")
+        logging.info(response)
+        logging.info(response.data)
+        return response
+    
     @app.route("/textconvert", methods=['GET'])
     def textconvert():
         fileName = request.args.get("file")
         logging.info("Received request to extract text for file : " + fileName)
-        return Response(convert_to_text(fileName), mimetype="text/plain")
+        response = Response(convert_to_text(fileName), mimetype="text/plain")
+        logging.info(response)
+        logging.info(response.data)
+        return response
 
     return app
 

@@ -25,11 +25,15 @@ def extractData(parsed_text):
     #extracting candidate mobile numbers
     startTime = time.time()
     logger.info("extracting candidate mobiles")
-    if len(extract_mobile_number(parsed_text)) > 0:
-        candidate.mobile = extract_mobile_number(parsed_text).split(",")[0] if "," in extract_mobile_number(
-            parsed_text) else extract_mobile_number(parsed_text)
-        candidate.alternateMobile = extract_mobile_number(parsed_text).split(",")[1] if "," in extract_mobile_number(
-            parsed_text) else ""
+    mobile_array = extract_mobile_number(parsed_text);
+    if len(mobile_array) > 0:
+        candidate.mobile = mobile_array[0]
+        candidate.mobile = ''.join(candidate.mobile).replace(' ', '')
+        candidate.mobile = candidate.mobile.replace('-','')
+        if len(mobile_array) > 1 :
+            candidate.alternateMobile = mobile_array[1]
+            candidate.alternateMobile = ''.join(candidate.alternateMobile).replace(' ', '')
+            candidate.alternateMobile = candidate.alternateMobile.replace('-', '')
     logger.info("completed extracting mobile numbers in : "+str((time.time()-startTime)*1000)+"ms")
 
     #extracting candidate email
