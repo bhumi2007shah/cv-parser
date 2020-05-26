@@ -5,6 +5,7 @@ from flask import Flask, Response, request, jsonify
 from CustomException.CustomException import CustomWebException
 from ParseResume import parseResume
 from config import config
+from Neo4jConnect import print_neo4j_data
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import sentry_sdk
@@ -59,6 +60,13 @@ def create_app():
         fileName = request.args.get("file")
         logging.info("Received request to extract text for file : " + fileName)
         response = Response(convert_to_text(fileName), mimetype="text/plain")
+        logging.info(response)
+        logging.info(response.data)
+        return response
+
+    @app.route("/neo4j", methods=['GET'])
+    def neo4j():
+        response = Response(print_neo4j_data(), mimetype="application/json")
         logging.info(response)
         logging.info(response.data)
         return response
