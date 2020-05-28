@@ -1,17 +1,29 @@
 from neo4j import GraphDatabase
 from neobolt.routing import READ_ACCESS
 import logging
+from config import config
 import time
+import requests
 
 logger = logging.getLogger(__name__)
-
-uri = "bolt://localhost:7687"
 
 def print_neo4j_data():
     startTime = time.time()
     logger.info('received request to connect neo4j')
-    driver = GraphDatabase.driver(uri, auth=("neo4j", "hexagon"), encrypted=False)
+    driver = GraphDatabase.driver(config.NEO4J_URL, auth=("neo4j", "hexagon"), encrypted=False)
     session = driver.session(default_access_mode=READ_ACCESS)
-    result = session.run("MATCH (n:Company) where n.companyName = 'MindTree' return n;")
+    result = session.run("MATCH (c:Company) where c.companyName = 'MindTree' return c")
     logger.info('finished connection to neo4j in : ' + str((time.time() - startTime) * 1000) + ' ms')
-    return [record["n"] for record in result]
+    for record in result.graph().nodes:
+        for key, value in record.items():
+            map[key] = value
+    return map
+
+def get_neo4j_data_by_api():
+    startTime = time.time()
+    logger.info('received request to get neo4j data by api call')
+    resp = requests.post(config.SEARCH_ENGINE_URL, json={"companyId": 111,"selectedRole": {"roleName": "VOLTE Engineer"},"industry": {"industryName": "IT"},"function": { },"skills":[]},
+                         headers={'Content-Type': 'application/json'})
+    logger.info('finished get neo4j data by api call in : ' + str((time.time() - startTime) * 1000) + ' ms')
+    return resp
+

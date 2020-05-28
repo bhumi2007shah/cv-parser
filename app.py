@@ -5,9 +5,8 @@ from flask import Flask, Response, request, jsonify
 from CustomException.CustomException import CustomWebException
 from ParseResume import parseResume
 from config import config
-from Neo4jConnect import print_neo4j_data
+from Neo4jConnect import print_neo4j_data, get_neo4j_data_by_api
 import logging
-from logging.handlers import TimedRotatingFileHandler
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -65,8 +64,15 @@ def create_app():
         return response
 
     @app.route("/neo4j", methods=['GET'])
-    def neo4j():
+    def neo4jDbConnect():
         response = Response(print_neo4j_data(), mimetype="application/json")
+        logging.info(response)
+        logging.info(response.data)
+        return response
+
+    @app.route("/getNeo4jData", methods=['GET'])
+    def callNeo4jApi():
+        response = Response(get_neo4j_data_by_api(), mimetype="application/json")
         logging.info(response)
         logging.info(response.data)
         return response
