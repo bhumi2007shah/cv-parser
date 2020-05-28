@@ -1,16 +1,19 @@
-import json
-
 from flask import Flask, Response, request, jsonify
-
 from CustomException.CustomException import CustomWebException
 from ParseResume import parseResume
 from config import config
-from Neo4jConnect import print_neo4j_data, get_neo4j_data_by_api
-import logging
-import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+import logging
+import sentry_sdk
+
 from services.FileService import convert_to_text
+
+from Neo4jAPI import neo4j_api
+
+# Register blueprint for separate rout file
+app = Flask(__name__)
+app.register_blueprint(neo4j_api, url_prefix='/neo4j')
 
 
 def create_app():
@@ -29,12 +32,10 @@ def create_app():
     # handler.setFormatter(formatter)
     # logger = logging.getLogger(__name__)
     # logger.addHandler(handler)
-    
 
     logging.basicConfig(filename="logs/cvparser.log", filemode="a+", level=logging.INFO,
-                       format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
+                        format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
 
-    app = Flask(__name__)
     app.config.from_object('config')
 
     # Registering error handlers for application
@@ -49,30 +50,16 @@ def create_app():
     @app.route("/parsecv", methods=['GET'])
     def parsecv():
         fileName = request.args.get("file")
-        response =  Response(parseResume(fileName), mimetype="application/json")
+        response = Response(parseResume(fileName), mimetype="application/json")
         logging.info(response)
         logging.info(response.data)
         return response
-    
+
     @app.route("/textconvert", methods=['GET'])
     def textconvert():
         fileName = request.args.get("file")
         logging.info("Received request to extract text for file : " + fileName)
         response = Response(convert_to_text(fileName), mimetype="text/plain")
-        logging.info(response)
-        logging.info(response.data)
-        return response
-
-    @app.route("/neo4j", methods=['GET'])
-    def neo4jDbConnect():
-        response = Response(print_neo4j_data(), mimetype="application/json")
-        logging.info(response)
-        logging.info(response.data)
-        return response
-
-    @app.route("/getNeo4jData", methods=['GET'])
-    def callNeo4jApi():
-        response = Response(get_neo4j_data_by_api(), mimetype="application/json")
         logging.info(response)
         logging.info(response.data)
         return response
