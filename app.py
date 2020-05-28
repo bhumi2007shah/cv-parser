@@ -12,11 +12,11 @@ from services.FileService import convert_to_text
 from Neo4jAPI import neo4j_api
 
 # Register blueprint for separate rout file
-app = Flask(__name__)
-app.register_blueprint(neo4j_api, url_prefix='/neo4j')
-
 
 def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(neo4j_api)
+
     if config.SENTRY_DSN is not None:
         sentry_sdk.init(
             dsn=config.SENTRY_DSN,
@@ -70,4 +70,4 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     app.run(host='127.0.0.1', port=config.PORT, debug=True)
-    logging.info('Started app in ' + config.APP_ENV + 'environment')
+    logging.info('Started app in ' + config.APP_ENV + ' environment')
