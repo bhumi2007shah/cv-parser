@@ -19,7 +19,7 @@ def extract_skills(resume_text):
     tokens = [token.text for token in nlp_text if not token.is_stop]
 
     # reading the csv file
-    data = pd.read_csv("../skills.csv", sep=",", usecols=['skills'], squeeze=True)
+    data = pd.read_csv("./skills.csv", sep=",", usecols=['skills'], squeeze=True)
 
     # extract values
     skills = list(data.values)
@@ -48,7 +48,7 @@ def extract_skills(jd_text, isJdText):
     nlp_text = nlp(jd_text)
 
     # reading the csv file
-    data = pd.read_csv("../skills.csv", sep=",", usecols=['skills'], squeeze=True)
+    data = pd.read_csv("./skills.csv", sep=",", usecols=['skills'], squeeze=True)
 
     # extract values
     skills = list(data.values)
