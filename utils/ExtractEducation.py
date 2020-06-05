@@ -3,7 +3,7 @@ import spacy
 from nltk.corpus import stopwords
 
 # load pre-trained model
-from Models.CandidateEducationDetails import CandidateEducationDetails
+from model.CandidateEducationDetails import CandidateEducationDetails
 
 nlp = spacy.load('en_core_web_sm')
 

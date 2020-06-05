@@ -1,6 +1,6 @@
 import csv
 
-with open('skills.csv') as csv_file:
+with open('/skills.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     skills_set = set()
     for row in csv_reader:

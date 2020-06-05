@@ -1,4 +1,3 @@
-import io
 from pathlib import Path
 
 import requests
@@ -6,11 +5,9 @@ import os.path
 import time
 import logging
 
-from flask import jsonify
-
 from CustomException.CustomException import CustomWebException
-from ExtractDoc import extract_text_from_doc
-from ExtractPdf import extract_from_pdf
+from services.cvProcessService.ExtractDoc import extract_text_from_doc
+from services.cvProcessService.ExtractPdf import extract_from_pdf
 from config import config
 
 logger = logging.getLogger(__name__)
