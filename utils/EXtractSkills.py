@@ -65,7 +65,7 @@ def extract_skills(jd_text, isJdText):
     # call search engine api to get all master data skill set
     data = requests.get(config.SEARCH_ENGINE_BASE_URL + config.SEARCH_ENGINE_GET_SKILL_SET_URL,
                         headers={'Content-Type': 'application/json'})
-    
+
     logger.info('finished request to search engine to get mater data skills in : ' + str((time.time() - startTimeForgetSkills) * 1000) + ' ms')
 
     # extract skill list
