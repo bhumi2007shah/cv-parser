@@ -1,5 +1,13 @@
-import pandas as pd
+import ast
+import logging
+import time
+
 import spacy
+import requests
+
+from config import config
+logger = logging.getLogger(__name__)
+
 
 # load pre-trained model
 from spacy.lang.de.syntax_iterators import noun_chunks
@@ -18,11 +26,16 @@ def extract_skills(resume_text):
     # removing stop words and implementing word tokenization
     tokens = [token.text for token in nlp_text if not token.is_stop]
 
-    # reading the csv file
-    data = pd.read_csv("./skills.csv", sep=",", usecols=['skills'], squeeze=True)
+    startTimeForgetSkills = time.time()
 
-    # extract values
-    skills = list(data.values)
+    # call search engine api to get all skill set
+    data = requests.get(config.SEARCH_ENGINE_BASE_URL + config.SEARCH_ENGINE_GET_SKILL_SET_URL,
+                        headers={'Content-Type': 'application/json'})
+
+    logger.info('finished request to search engine to get mater data skills in : ' + str((time.time() - startTimeForgetSkills) * 1000) + ' ms')
+
+    # extract skill list
+    skills = ast.literal_eval(data.text)
 
     skillset = []
 
@@ -47,11 +60,16 @@ def extract_skills(resume_text):
 def extract_skills(jd_text, isJdText):
     nlp_text = nlp(jd_text)
 
-    # reading the csv file
-    data = pd.read_csv("./skills.csv", sep=",", usecols=['skills'], squeeze=True)
+    startTimeForgetSkills = time.time()
 
-    # extract values
-    skills = list(data.values)
+    # call search engine api to get all master data skill set
+    data = requests.get(config.SEARCH_ENGINE_BASE_URL + config.SEARCH_ENGINE_GET_SKILL_SET_URL,
+                        headers={'Content-Type': 'application/json'})
+    
+    logger.info('finished request to search engine to get mater data skills in : ' + str((time.time() - startTimeForgetSkills) * 1000) + ' ms')
+
+    # extract skill list
+    skills = ast.literal_eval(data.text)
 
     skillset = []
 
