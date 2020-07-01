@@ -16,7 +16,7 @@ def parse_jd(jdParserRequest):
 
     if (jdParserRequest.skillFlag):
         # Extract skills
-        skillset = extract_skills(jdParserRequest.jdString, jdParserRequest.skillFlag)
+        skillset = extract_skills(jdParserRequest.jdString, bool(1))
 
     data = {"companyId": jdParserRequest.companyId, "selectedRole": {}, "industry": {},
             "function": {"functionName": jdParserRequest.function}, "skills": skillset}

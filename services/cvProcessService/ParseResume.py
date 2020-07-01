@@ -46,7 +46,7 @@ def extractData(parsed_text):
     # extracting candidate's skills
     startTime = time.time()
     logger.info("extracting candidate skills")
-    candidate.candidateSkillDetails = extract_skills(parsed_text)
+    candidate.candidateSkillDetails = extract_skills(parsed_text, bool(0))
     logger.info("completed extrating candidate's skills in : " + str((time.time() - startTime) * 1000) + "ms")
 
     # extracting candidate's education
