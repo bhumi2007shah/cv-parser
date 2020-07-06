@@ -19,7 +19,7 @@ class SearchEngineRequest(object):
 def parseJd():
 
     # Parse JSON into an object with attributes corresponding to dict keys.
-    jdParserRequest = json.loads(request.data.decode('utf8').replace("'", '"'), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    jdParserRequest = json.loads(request.data.decode('utf8'), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
 
     # Call to service method
     response = Response(parse_jd(jdParserRequest), mimetype="application/json")
