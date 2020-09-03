@@ -6,6 +6,7 @@ import logging
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+from controller.FileProcessController import file_process_api
 from controller.JdProcessController import jd_process_api
 from controller.CvProcessController import cv_process_api
 
@@ -14,6 +15,7 @@ def create_app():
     app = Flask(__name__)
     app.register_blueprint(jd_process_api)
     app.register_blueprint(cv_process_api)
+    app.register_blueprint(file_process_api)
 
     if config.SENTRY_DSN is not None:
         sentry_sdk.init(
